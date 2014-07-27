@@ -1,0 +1,25 @@
+//
+//  HTTPClient+MangerClient.m
+//  CoolProject
+//
+//  Created by wuzhensong on 14-6-10.
+//  Copyright (c) 2014年 mosh. All rights reserved.
+//
+
+#import "HTTPClient+MangerClient.h"
+
+@implementation HTTPClient (MangerClient)
+
+- (void) getMangerListSuccess:(void(^)(id jsonData))success
+                          fail:(void (^)(void))fail {
+    
+    //    [self.request beginRequestWithUrl:SERVERHOST
+    //                     isAppendHost:YES
+    //                        isEncrypt:NO
+    //                          success:success
+    //                             fail:fail];
+    
+    NSArray *array = @[@"",@"",@"",@"",@""];
+    success(array);
+}
+@end

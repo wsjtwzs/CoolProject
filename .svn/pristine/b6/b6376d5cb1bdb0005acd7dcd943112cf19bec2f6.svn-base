@@ -1,0 +1,105 @@
+//
+//  RegViewController.m
+//  CoolProject
+//
+//  Created by wuzhensong on 14-6-7.
+//  Copyright (c) 2014年 mosh. All rights reserved.
+//
+
+#import "RegViewController.h"
+#import "HTTPClient+Register.h"
+
+@interface RegViewController ()
+
+@end
+
+@implementation RegViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+- (void) viewWillAppear:(BOOL)animated
+{
+    [self.navigationController setNavigationBarHidden:NO];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self createBarWithLeftBarItem:MoshNavigationBarItemBack rightBarItem:MoshNavigationBarItemNone title:@"登录"];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)submitButtonClick:(id)sender {
+    
+    //用户名密码不能为空
+    if ((![GlobalConfig isKindOfNSStringClassAndLenthGreaterThanZero:self.phoneNumber.text Alert:ALERT_PHONE_EMPTY]) ||
+        (![GlobalConfig isKindOfNSStringClassAndLenthGreaterThanZero:self.password.text Alert:ALERT_PASSWORD_EMPTY]) ||
+        (![GlobalConfig isKindOfNSStringClassAndLenthGreaterThanZero:self.confimPassword.text Alert:ALERT_PASSWORD_EMPTY ])) {
+        return;
+    }
+    
+    //手机号格式验证
+    if (![GlobalConfig isValidateMobile:self.phoneNumber.text]) {
+        [GlobalConfig alert:ALERT_PHONE_ERROR];
+        return;
+    }
+    //确认密码验证
+    if (![self.password.text isEqualToString:self.confimPassword.text]) {
+        [GlobalConfig alert:ALERT_PASSWORD_UNEQUAL];
+        return;
+    }
+    [self showLoadingView];
+    [[HTTPClient shareHTTPClient] registerWithUsername:self.phoneNumber.text
+                                              password:self.password.text
+                                               success:^(id jsonData) {
+                                                    [self hideLoadingView];
+                                                   [self registerSuccess:jsonData];
+                                               } fail:^{
+                                                    [self hideLoadingView];
+                                                   [GlobalConfig alert:ERROR_LOADFAIL];
+                                               }];
+}
+
+- (void) serviceButtonClick:(id)sender
+{
+    [super serviceButtonClick:sender];
+}
+
+- (void) registerSuccess:(id) jsonData
+{
+    //json格式正确
+    if ([GlobalConfig isKindOfNSDictionaryClassAndCountGreaterThanZero:jsonData]) {
+        
+        //成功
+        NSNumber *number = [GlobalConfig convertToNumber:jsonData[JSONKEY_SUCCESS]];
+        if ([number boolValue] == YES) {
+            //获取token
+            NSDictionary *data = [GlobalConfig convertToDictionary:jsonData[JSONKEY_DATA]];
+            
+            NSString *token = data[JSONKEY_TOKEN];
+            if ([GlobalConfig isKindOfNSStringClassAndLenthGreaterThanZero:token]) {
+                
+                //保存token
+                [GlobalConfig saveUserDefaultWithDictionary:@{USER_TOKEN:token}];
+                [self.navigationController presentViewController:[Controllers mainTabbarController] animated:YES completion:^{}];
+                return;
+            }
+        }
+        
+    }
+    
+    [GlobalConfig alert:ERROR_LOADFAIL];
+}
+
+@end

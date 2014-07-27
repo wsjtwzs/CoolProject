@@ -1,0 +1,85 @@
+//
+//  MangerViewController.m
+//  CoolProject
+//
+//  Created by wuzhensong on 14-6-10.
+//  Copyright (c) 2014年 mosh. All rights reserved.
+//
+
+#import "MangerViewController.h"
+#import "HTTPClient+MangerClient.h"
+#import "MangerCell.h"
+#import "MangerModel.h"
+
+@interface MangerViewController ()
+
+@end
+
+@implementation MangerViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.cellHeight = 190.0f;
+    [self createBarWithLeftBarItem:MoshNavigationBarItemNone rightBarItem:MoshNavigationBarItemAdd title:@"车管理"];
+    self.navigationItem.leftBarButtonItem = [BaseViewController createNavigationBarItemWithNormalImageName:@"nav_bg" highlightImageName:@"nav_bg" title:@"地图" isLeft:YES action:@selector(navMapButtonClick) target:self];
+    [self addEGORefreshOnTableView:self.baseTableView];
+    [self downloadData];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - selfAction -
+- (void) downloadData
+{
+    self.loadingView.hidden = NO;
+    [[HTTPClient shareHTTPClient] getMangerListSuccess:^(id jsonData) {
+        self.dataArray = jsonData;
+        [self.baseTableView reloadData];
+        self.loadingView.hidden = YES;
+        
+    } fail:^{
+        self.loadingView.hidden = YES;
+    }];
+}
+
+- (void) navMapButtonClick
+{
+    [self.navigationController pushViewController:[Controllers MapViewController] animated:YES];
+}
+
+- (void) navAddClick
+{
+    [self.navigationController pushViewController:[Controllers addCarViewControllerWithModel:nil] animated:YES];
+}
+
+
+#pragma mark - tableViewDelegate -
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellID = @"mangerCell";
+    MangerCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    
+    if (!cell) {
+        cell = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([MangerCell class]) owner:self options:nil] objectAtIndex:0];
+    }
+    return cell;
+}
+
+@end

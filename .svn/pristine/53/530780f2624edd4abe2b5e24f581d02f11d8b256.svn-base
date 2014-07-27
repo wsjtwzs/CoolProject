@@ -1,0 +1,24 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
+
+
+//需要修改的信息
+#define SERVICENUMBER            @"8004001059" //客服电话
+
+#define APPID_BAIDUMAP            @"2PmADTdG3ZagB3M4dHoi7dDT" //百度地图appid
+
+#define APPID_BAIDUPUSH         @"I7TlkhBQItL1O0uvNyeke7Aa"//百度云推送appid

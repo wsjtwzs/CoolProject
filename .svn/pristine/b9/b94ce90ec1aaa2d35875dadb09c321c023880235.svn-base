@@ -1,0 +1,37 @@
+//
+//  HTTPClient.h
+//  moshTickets
+//
+//  Created by 魔时网 on 13-11-14.
+//  Copyright (c) 2013年 mosh. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "ServerRequest.h"   
+#import "CacheHanding.h"
+#import "UIImageView+AFNetworking.h"
+#import "URLDefine.h"
+
+@interface HTTPClient : NSObject
+
+@property (nonatomic, strong) ServerRequest *request;
+
+
+
+/*
+ 单例
+ */
++ (HTTPClient *) shareHTTPClient;
+
+/*
+ 登录
+ name 用化名
+ password 密码
+ */
+- (void) loginWithUserName:(NSString *)userName
+                  password:(NSString *)password
+                   success:(void (^)(id jsonData))success
+                      fail:(void (^)(void))fail;
+
+
+@end

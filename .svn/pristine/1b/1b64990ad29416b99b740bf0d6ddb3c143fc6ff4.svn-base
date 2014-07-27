@@ -1,0 +1,46 @@
+//
+//  HTTPClient.m
+//  moshTickets
+//
+//  Created by 魔时网 on 13-11-14.
+//  Copyright (c) 2013年 mosh. All rights reserved.
+//
+
+#import "HTTPClient.h"
+#import "GlobalConfig.h"
+
+
+@implementation HTTPClient
+
++ (HTTPClient *) shareHTTPClient
+{
+    static HTTPClient *instace;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instace = [[HTTPClient alloc] init];
+    });
+    return instace;
+}
+
+- (id) init
+{
+    if (self = [super init]) {
+        self.request = [ServerRequest serverRequest];
+    }
+    return self;
+}
+
+- (void) loginWithUserName:(NSString *)userName
+                  password:(NSString *)password
+                   success:(void (^)(id jsonData))success
+                      fail:(void (^)(void))fail
+{
+    [_request beginRequestWithUrl:[NSString stringWithFormat:URL_LOGIN,userName,password]
+                     isAppendHost:YES
+                        isEncrypt:Encrypt
+                          success:success
+                             fail:fail];
+}
+
+
+@end

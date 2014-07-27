@@ -1,0 +1,62 @@
+//
+//  HTTPClient+ProductClient.m
+//  CoolProject
+//
+//  Created by 魔时网 on 14-6-4.
+//  Copyright (c) 2014年 mosh. All rights reserved.
+//
+
+#import "HTTPClient+ProductClient.h"
+#import "GlobalConfig.h"
+#import "ProductModel.h"
+
+@implementation HTTPClient (ProductClient)
+
+- (void) getCarListSuccess:(void(^)(NSMutableArray *dataArray))success{
+    //授权失败回调函数
+    
+       
+//    [self.request beginRequestWithUrl:[NSString stringWithFormat:URL_CARLIST,[GlobalConfig getObjectWithKey:USER_TOKEN]]
+//                     isAppendHost:YES
+//                        isEncrypt:NO
+//                              success:^(id jsonData) {
+//                                  NSArray *array = [self listAnalyze:jsonData Key:@"list"];
+//                                  NSMutableArray *data = [NSMutableArray new];
+//                                  for (NSDictionary *dic in array) {
+//                                      ProductModel *model = [ProductModel productModelWithDic:dic];
+//                                      [data addObject:model];
+//                                  }
+//                                success(data);
+//                              }
+//                                 fail:^{
+//                                     [GlobalConfig showAlertViewWithMessage:ERROR_LOADFAIL superView:nil];
+//                                     success(nil);
+//                                 }];
+//
+    success(@[@"",@"",@"",@"",@"",@"",]);
+}
+
+
+
+- (void) getListSuccess:(void(^)(NSMutableArray *dataArray))success {
+    
+//    [self.request beginRequestWithUrl:[NSString stringWithFormat:URL_CARLIST,[GlobalConfig getObjectWithKey:USER_TOKEN]]
+//                         isAppendHost:YES
+//                            isEncrypt:NO
+//                              success:^(id jsonData) {
+//                                  NSArray *array = [self listAnalyze:jsonData Key:@"list"];
+//                                  NSMutableArray *data = [NSMutableArray new];
+//                                  for (NSDictionary *dic in array) {
+//                                      ProductModel *model = [ProductModel productModelWithDic:dic];
+//                                      [data addObject:model];
+//                                  }
+//                                  success(data);
+//                              }
+//                                 fail:^{
+//                                     [GlobalConfig showAlertViewWithMessage:ERROR_LOADFAIL superView:nil];
+//                                     success(nil);
+//                                 }];
+    success(@[@"",@"",@"",@"",@"",@"",]);
+}
+
+@end

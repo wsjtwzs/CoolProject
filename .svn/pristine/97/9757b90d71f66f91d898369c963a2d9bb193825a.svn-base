@@ -1,0 +1,13 @@
+//
+//  MangerModel.m
+//  CoolProject
+//
+//  Created by wuzhensong on 14-6-10.
+//  Copyright (c) 2014年 mosh. All rights reserved.
+//
+
+#import "MangerModel.h"
+
+@implementation MangerModel
+
+@end

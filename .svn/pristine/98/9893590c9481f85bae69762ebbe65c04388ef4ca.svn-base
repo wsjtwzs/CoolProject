@@ -1,0 +1,94 @@
+//
+//  UserLoginViewController.m
+//  CoolProject
+//
+//  Created by wuzhensong on 14-6-7.
+//  Copyright (c) 2014年 mosh. All rights reserved.
+//
+
+#import "UserLoginViewController.h"
+#import "HTTPClient+Login.h"
+
+@interface UserLoginViewController ()
+
+@end
+
+@implementation UserLoginViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [self.navigationController setNavigationBarHidden:NO];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self createBarWithLeftBarItem:MoshNavigationBarItemBack rightBarItem:MoshNavigationBarItemNone title:@"登录"];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)confimButtonClick:(id)sender {
+    
+    //用户名密码不能为空
+    if ((![GlobalConfig isKindOfNSStringClassAndLenthGreaterThanZero:self.username.text Alert:ALERT_USERNAME_EMPTY]) ||
+        (![GlobalConfig isKindOfNSStringClassAndLenthGreaterThanZero:self.password.text Alert:ALERT_PASSWORD_EMPTY])) {
+        return;
+    }
+    
+    [[HTTPClient shareHTTPClient] loginWithUsername:self.username.text
+                                              password:self.password.text
+                                               success:^(id jsonData) {
+                                                   
+                                                   [self loginSuccess:jsonData];
+                                               } fail:^{
+                                                   [GlobalConfig alert:ERROR_LOADFAIL];
+                                               }];
+
+   
+
+}
+
+- (IBAction)serviceButtonClick:(id)sender {
+    [GlobalConfig makeCall:SERVICENUMBER];
+}
+
+- (void) loginSuccess:(id) jsonData
+{
+    //json格式正确
+    if ([GlobalConfig isKindOfNSDictionaryClassAndCountGreaterThanZero:jsonData]) {
+        
+        //成功
+        NSNumber *number = [GlobalConfig convertToNumber:jsonData[JSONKEY_SUCCESS]];
+        if ([number boolValue] == YES) {
+            //获取token
+            NSDictionary *data = [GlobalConfig convertToDictionary:jsonData[JSONKEY_DATA]];
+            
+            NSString *token = data[JSONKEY_TOKEN];
+            if ([GlobalConfig isKindOfNSStringClassAndLenthGreaterThanZero:token]) {
+                
+                //保存token
+                [GlobalConfig saveUserDefaultWithDictionary:@{USER_TOKEN:token}];
+                [self.navigationController presentViewController:[Controllers mainTabbarController] animated:YES completion:^{}];
+                return;
+            }
+        }
+    }
+    
+    [GlobalConfig alert:ERROR_LOADFAIL];
+}
+
+@end

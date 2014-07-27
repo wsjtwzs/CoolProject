@@ -1,0 +1,83 @@
+//
+//  LocationViewController.m
+//  CoolProject
+//
+//  Created by wuzhensong on 14-6-12.
+//  Copyright (c) 2014年 mosh. All rights reserved.
+//
+
+#import "TransferViewController.h"
+
+@interface TransferViewController ()
+{
+    CityPickerView *_cityPicker;
+    WSDatePickerView *_datePicker;
+}
+@end
+
+@implementation TransferViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self createBarWithLeftBarItem:MoshNavigationBarItemBack rightBarItem:MoshNavigationBarItemNone title:@"调度"];
+    self.navigationItem.rightBarButtonItem = [BaseViewController createNavigationBarItemWithNormalImageName:@"nav_bg" highlightImageName:@"nav_bg" title:@"提交" isLeft:NO action:@selector(confirmButtonClick:) target:self];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void) confirmButtonClick:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)dateClick:(id)sender {
+    if (!_datePicker.superview) {
+        _datePicker = [[WSDatePickerView alloc] initWithdataPickerMode:UIDatePickerModeDate];
+        _datePicker.backgroundColor = [UIColor grayColor];
+        _datePicker.delegate = self;
+        [self.view.window addSubview:_datePicker];
+    }
+
+}
+
+- (IBAction)addressClick:(id)sender {
+    if (!_cityPicker.superview) {
+        _cityPicker = [[CityPickerView alloc] initWithFrame:CGRectZero];
+        _cityPicker.backgroundColor = [UIColor grayColor];
+        _cityPicker.delegate = self;
+        [self.view.window addSubview:_cityPicker];
+    }
+}
+
+- (IBAction)serviceButtonClick:(id)sender
+{
+    [super serviceButtonClick:sender];
+}
+
+#pragma mark - cityPickerViewDelegate -
+
+- (void) doneWithSelectCity:(NSString *)cityName
+{
+    [self.addressButton setTitle:cityName forState:UIControlStateNormal];
+}
+#pragma mark - WSDatePickeViewDelegate -
+- (void) wsdatePickerSelectDate:(NSDate *)date mode:(UIDatePickerMode)mode
+{
+        [self.dateButton setTitle:[GlobalConfig date:date format:DATEFORMAT_08] forState:UIControlStateNormal];
+}
+
+@end

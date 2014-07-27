@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>-4</key>
+	<string>用户不存在</string>
+	<key>1</key>
+	<string>登陆超时</string>
+	<key>2</key>
+	<string>用户账号或密码错误</string>
+	<key>3</key>
+	<string>操作失败</string>
+	<key>4</key>
+	<string>缺少参数</string>
+	<key>5</key>
+	<string>用户已存在</string>
+	<key>6</key>
+	<string>设备编号不存在</string>
+	<key>7</key>
+	<string>gps/温度保存失败</string>
+	<key>8</key>
+	<string>参数格式错误</string>
+	<key>9</key>
+	<string>车牌号已经存在</string>
+	<key>10</key>
+	<string>设备号码已经被绑定</string>
+	<key>11</key>
+	<string>车辆不存在/不属于当前用户</string>
+</dict>
+</plist>

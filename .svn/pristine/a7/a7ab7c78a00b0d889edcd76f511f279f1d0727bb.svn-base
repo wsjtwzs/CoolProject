@@ -1,0 +1,47 @@
+//
+//  HTTPClient+ProductClient.m
+//  CoolProject
+//
+//  Created by 魔时网 on 14-6-4.
+//  Copyright (c) 2014年 mosh. All rights reserved.
+//
+
+#import "HTTPClient+ProductClient.h"
+#import "GlobalConfig.h"
+
+
+@implementation HTTPClient (ProductClient)
+
+- (void) getProdectListSuccess:(void(^)(id jsonData))success
+                          fail:(void (^)(void))fail {
+    //授权失败回调函数
+    
+       
+    [self.request beginRequestWithUrl:[NSString stringWithFormat:URL_CARLIST,[GlobalConfig getObjectWithKey:USER_TOKEN]]
+                     isAppendHost:YES
+                        isEncrypt:NO
+                          success:success
+                             fail:fail];
+    
+    
+    
+//    NSArray *array = @[@"",@"",@"",@"",@""];
+//    success(array);
+}
+
+
+
+- (void) getListSuccess:(void(^)(id jsonData))success
+                          fail:(void (^)(void))fail {
+    
+    //    [self.request beginRequestWithUrl:SERVERHOST
+    //                     isAppendHost:YES
+    //                        isEncrypt:NO
+    //                          success:success
+    //                             fail:fail];
+    
+    NSArray *array = @[@"",@"",@"",@"",@""];
+    success(array);
+}
+
+@end

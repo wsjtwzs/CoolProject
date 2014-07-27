@@ -1,0 +1,24 @@
+//
+//  MangerModel.h
+//  CoolProject
+//
+//  Created by wuzhensong on 14-6-10.
+//  Copyright (c) 2014年 mosh. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "BaseModel.h"
+
+@interface MangerModel : BaseModel
+
+@property (nonatomic ,strong) NSString *carID;
+@property (nonatomic ,strong) NSString *carNumber;
+@property (nonatomic ,strong) NSString *carType;
+@property (nonatomic ,strong) NSString *carWidth;
+//@property (nonatomic ,strong) NSString *carLocation;
+@property (nonatomic ,strong) NSString *locationNumber;
+@property (nonatomic ,strong) NSString *phoneNumber;
+@property (nonatomic ,strong) NSString *temperature;
+@property (nonatomic, strong) NSString *addTime;
+
+@end

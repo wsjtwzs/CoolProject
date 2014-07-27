@@ -1,0 +1,35 @@
+//
+//  URLDefine.h
+//  modelTest
+//
+//  Created by mosh on 13-10-29.
+//  Copyright (c) 2013年 mosh. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+
+#define JSONKEY_DATA    @"data"
+#define JSONKEY_SUCCESS    @"success"
+#define JSONKEY_ERROR    @"errCode"
+#define JSONKEY_TOKEN    @"token"
+
+#define JSONSUCCESS     @"1"
+#define JSONFAIL        @"0"
+/*
+ 网址
+ */
+
+#define MOSHHOST        @"http://ly.lootai.com/api/user/" //host
+
+
+#define URL_REG         @"register?user=%@&password=%@"  //注册
+#define URL_LOGIN       @"login?user=%@&password=%@"  //登录
+
+
+#define URL_REGCAR      @"registCar?token=%@&code=%@&c_type=%@&c_length=%@&phone=%@&c_number=%@"//车辆登记
+
+
+@interface URLDefine : NSObject
+
+@end

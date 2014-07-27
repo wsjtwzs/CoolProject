@@ -1,0 +1,73 @@
+//
+//  UserViewController.m
+//  CoolProject
+//
+//  Created by wuzhensong on 14-6-6.
+//  Copyright (c) 2014年 mosh. All rights reserved.
+//
+
+#import "UserViewController.h"
+
+@interface UserViewController ()
+
+@end
+
+@implementation UserViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self createBarWithLeftBarItem:MoshNavigationBarItemNone rightBarItem:MoshNavigationBarItemUserExited title:@"账号"];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"退出" style:UIBarButtonItemStylePlain target:self action:@selector(navUserExitClick)];
+    [self.navigationItem.leftBarButtonItem setTitleTextAttributes:@{UITextAttributeTextColor:BLUECOLOR} forState:UIControlStateNormal];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void) navUserExitClick
+{
+    [GlobalConfig deleteUserInfo];
+}
+
+- (IBAction)NotiSwitchValueChange:(id)sender {
+    UISwitch *sw = (UISwitch *)sender;
+    if (!sw.isOn) {
+        //关
+        [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:USERDEFAULT_RECEIVENOTI];
+    }
+    else {
+        //开
+        [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:USERDEFAULT_RECEIVENOTI];
+    }
+}
+
+- (IBAction)loginSwitchValueChange:(id)sender {
+    UISwitch *sw = (UISwitch *)sender;
+    if (!sw.isOn) {
+        //关
+        [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:USERDEFAULT_AUTOLOGIN];
+    }
+    else {
+        //开
+        [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:USERDEFAULT_AUTOLOGIN];
+    }
+}
+
+- (IBAction)callButtonClick:(id)sender {
+    [super serviceButtonClick:sender];
+}
+@end

@@ -1,0 +1,125 @@
+//
+//  AddCarViewController.m
+//  CoolProject
+//
+//  Created by wuzhensong on 14-6-14.
+//  Copyright (c) 2014年 mosh. All rights reserved.
+//
+
+#import "AddCarViewController.h"
+
+static NSArray *typeArray = nil;
+static NSArray *widthArray = nil;
+static NSArray *locationArray = nil;
+
+@interface AddCarViewController ()
+{
+    WSPickerView *_typePicker;
+    WSPickerView *_widthPicker;
+    WSPickerView *_locationPicker;
+}
+
+@end
+
+@implementation AddCarViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    typeArray = @[@"冷藏车",@"保温车"];
+    widthArray = @[@"7.6",@"8.6",@"9.6",@"12.5",@"13.7",@"15",@"16.2",@"16.5"];
+    locationArray = @[@"手机定位",@"GPS定位"];
+    [self createBarWithLeftBarItem:MoshNavigationBarItemBack rightBarItem:MoshNavigationBarItemNone title:@""];
+    self.baseScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - NAVHEIGHT);
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDidDisapper:) name:UIKeyboardDidHideNotification object:nil];
+    
+    if (self.type == AddCar_update) {
+        self.carNumber.text = self.model.carNumber;
+ 
+        [self.carLocation setTitle:self.model.carLocation forState:UIControlStateNormal];
+        [self.carType setTitle:self.model.carType forState:UIControlStateNormal];
+        [self.carWidth setTitle:self.model.carWidth forState:UIControlStateNormal];
+    }
+
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)carTypeButtonClick:(id)sender {
+    if (!_typePicker.superview) {
+        _typePicker = [self createPickerViewWithDataArray:typeArray];
+    }
+}
+
+- (IBAction)carWidthClick:(id)sender {
+    if (!_widthPicker.superview) {
+        _widthPicker = [self createPickerViewWithDataArray:widthArray];
+    }
+}
+
+- (IBAction)carLocationClick:(id)sender {
+    if (!_locationPicker.superview) {
+        _locationPicker = [self createPickerViewWithDataArray:locationArray];
+    }
+}
+
+- (IBAction)confirmClick:(id)sender {
+}
+
+- (WSPickerView *) createPickerViewWithDataArray:(NSArray *)array
+{
+    WSPickerView *view = [[WSPickerView alloc] initWithDataArray:array];
+    view.backgroundColor = [UIColor grayColor];
+    view.delegate = self;
+    [self.view.window addSubview:view];
+    return view;
+}
+
+#pragma  mark - pickerViewDelegate -
+
+- (void) wsPickerSelectIndex:(NSInteger)index pickerView:(WSPickerView *)view
+{
+    if (view == _typePicker) {
+        if (index < typeArray.count) {
+            [self.carType setTitle:typeArray[index] forState:UIControlStateNormal];
+        }
+    }else if (view == _widthPicker) {
+        
+        if (index < widthArray.count) {
+            [self.carWidth setTitle:widthArray[index] forState:UIControlStateNormal];
+        }
+    }
+    else if (view == _locationPicker) {
+        if (index < locationArray.count) {
+            [self.carLocation setTitle:locationArray[index] forState:UIControlStateNormal];
+        }
+    }
+}
+
+#pragma mark - UIKeyboardNotification -
+- (void) keyBoardDidShow:(NSNotification *)noti
+{
+    [GlobalConfig keyBoardDidShow:noti scrollView:self.baseScrollView];
+}
+
+- (void) keyBoardDidDisapper:(NSNotification *)noti
+{
+    [GlobalConfig keyBoardDidDisapper:noti scrollView:self.baseScrollView];
+}
+
+
+@end

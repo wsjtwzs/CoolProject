@@ -1,0 +1,64 @@
+//
+//  HTTPClient+CarLocation.m
+//  CoolProject
+//
+//  Created by wuzhensong on 14-7-16.
+//  Copyright (c) 2014年 mosh. All rights reserved.
+//
+
+#import "HTTPClient+CarLocation.h"
+#import "BMapKit.h"
+
+@implementation HTTPClient (CarLocation)
+
+- (void) getCarPathSuccess:(void (^)(NSMutableArray *))success
+{
+    BMKPointAnnotation* annotation = [[BMKPointAnnotation alloc]init];
+    CLLocationCoordinate2D coor;
+    coor.latitude = 39.915;
+    coor.longitude = 116.404;
+    annotation.coordinate = coor;
+    annotation.title = @"轨迹1";
+    
+
+    BMKPointAnnotation* annotation1 = [[BMKPointAnnotation alloc]init];
+    CLLocationCoordinate2D coor1;
+    coor1.latitude = 39.9;
+    coor1.longitude = 116.4;
+    annotation1.coordinate = coor1;
+    annotation1.title = @"轨迹2";
+    
+    NSMutableArray *array  = [NSMutableArray new];
+    [array addObject:annotation];
+    [array addObject:annotation1];
+    
+    success(array);
+}
+
+
+- (void) getCarsLocationSuccess:(void (^)(NSMutableArray *))success
+{
+    BMKPointAnnotation* annotation = [[BMKPointAnnotation alloc]init];
+    CLLocationCoordinate2D coor;
+    coor.latitude = 39.915;
+    coor.longitude = 116.404;
+    annotation.coordinate = coor;
+    annotation.title = @"车辆1";
+    
+    
+    BMKPointAnnotation* annotation1 = [[BMKPointAnnotation alloc]init];
+    CLLocationCoordinate2D coor1;
+    coor1.latitude = 39.899;
+    coor1.longitude = 116.511;
+    annotation1.coordinate = coor1;
+    annotation1.title = @"车辆2";
+    
+    NSMutableArray *array  = [NSMutableArray new];
+    [array addObject:annotation];
+    [array addObject:annotation1];
+    
+    success(array);
+}
+
+
+@end

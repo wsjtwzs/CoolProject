@@ -1,0 +1,124 @@
+//
+//  Controllers.m
+//  CoolProject
+//
+//  Created by 魔时网 on 14-6-3.
+//  Copyright (c) 2014年 mosh. All rights reserved.
+//
+
+#import "Controllers.h"
+#import "BaseNavigationController.h"
+#import "WSTabBarController.h"
+#import "ProductViewController.h"
+#import "StoryViewController.h"
+#import "UserViewController.h"
+#import "LoginViewController.h"
+#import "UserLoginViewController.h"
+#import "UserViewController.h"
+#import "RegViewController.h"
+#import "MangerViewController.h"
+#import "LocationViewController.h"
+#import "TransferViewController.h"
+#import "AddCarViewController.h"
+#import "MapViewController.h"
+
+@implementation Controllers
+
++ (UIViewController *) firstViewController
+{
+       NSNumber *autoLogin = [[NSUserDefaults standardUserDefaults] objectForKey:USERDEFAULT_AUTOLOGIN];
+       NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:USER_TOKEN];
+    
+    if ( [autoLogin isKindOfClass:[NSNumber class]] && [autoLogin boolValue] &&
+        [GlobalConfig isKindOfNSStringClassAndLenthGreaterThanZero:token]) {
+        return [Controllers mainTabbarController];
+    }
+    else {
+        return [Controllers loginViewController];
+    }
+}
+
++ (UITabBarController *)mainTabbarController
+{
+    NSArray *array = @[@[@"车找货",@"icon_1",[Controllers productViewController]],
+                       @[@"车管理",@"icon_2", [Controllers mangerViewController]],
+                       @[@"用户",@"icon_3",  [Controllers userViewController]],
+                       @[@"老张故事",@"icon_4",[Controllers StoryViewControllerWithModel:nil]]];
+    
+    NSMutableArray *controllerArr = [NSMutableArray new];
+    
+    for (NSArray *ctlArr in array) {
+        UIViewController *ctl = [ctlArr lastObject];
+        BaseNavigationController *navCtl = [[BaseNavigationController alloc] initWithRootViewController:ctl];
+        navCtl.tabBarItem = [[UITabBarItem alloc] initWithTitle:[ctlArr firstObject] image:[UIImage imageNamed:ctlArr[1]] selectedImage:[UIImage imageNamed:ctlArr[1]]];
+        [controllerArr addObject:navCtl];
+    }
+
+    
+    WSTabBarController *ctl = [WSTabBarController new];
+    [ctl setViewControllers:controllerArr];
+    return ctl;
+}
+
++ (UIViewController *) productViewController
+{
+    return [ProductViewController viewController];
+}
+
++ (UIViewController *) mangerViewController
+{
+    return [MangerViewController viewController];
+}
+
++ (UIViewController *) StoryViewControllerWithModel:(ScrollModel *)model
+{
+    return  [[StoryViewController alloc] initWithScrollModel:model];
+}
+
++ (UIViewController *) userViewController
+{
+    return [UserViewController viewControllerWithNib];
+}
+
++ (UIViewController *) regViewController
+{
+    return [RegViewController viewControllerWithNib];
+}
+
++ (UIViewController *) loginViewController
+{
+    return [LoginViewController viewControllerWithNib];
+}
+
++ (UIViewController *) userLoginViewController
+{
+    return  [UserLoginViewController viewControllerWithNib];
+}
+
++ (UIViewController *) locationViewController
+{
+    return [LocationViewController viewControllerWithNib];
+}
+
++ (UIViewController *) transferViewController
+{
+    return [TransferViewController viewControllerWithNib];
+}
+
++ (UIViewController *) addCarViewControllerWithModel:(MangerModel *)model
+{
+    AddCarType type = AddCar_add;
+    
+    if (model) {
+        type = AddCar_update;
+    }
+    AddCarViewController *ctl = [(AddCarViewController *)[AddCarViewController alloc] initWithNibName:NSStringFromClass([AddCarViewController class]) bundle:nil addCarType:type mangerModel:model];
+    return ctl;
+}
+
++ (UIViewController *) MapViewController
+{
+    return [MapViewController viewControllerWithNib];
+}
+
+@end

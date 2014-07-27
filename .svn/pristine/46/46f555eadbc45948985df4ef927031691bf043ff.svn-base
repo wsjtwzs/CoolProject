@@ -1,0 +1,25 @@
+//
+//  ListCell.m
+//  CoolProject
+//
+//  Created by wuzhensong on 14-6-26.
+//  Copyright (c) 2014年 mosh. All rights reserved.
+//
+
+#import "ListCell.h"
+
+@implementation ListCell
+
+- (void)awakeFromNib
+{
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end
